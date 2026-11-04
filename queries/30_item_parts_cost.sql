@@ -6,14 +6,15 @@
 -- Порядок: diff по убыванию, при равенстве name по возрастанию
 -- Строк:   77
 
+
 WITH RECURSIVE item_tree AS (
     SELECT
         i.item_id AS root_id,
         r.component_id,
         r.quantity AS qty_total
     FROM items i
-             JOIN item_recipe r
-                  ON i.item_id = r.item_id
+    JOIN item_recipe r
+        ON i.item_id = r.item_id
 
     UNION ALL
 
@@ -22,25 +23,24 @@ WITH RECURSIVE item_tree AS (
         r.component_id,
         it.qty_total * r.quantity AS qty_total
     FROM item_tree it
-             JOIN item_recipe r
-                  ON it.component_id = r.item_id
+    JOIN item_recipe r
+        ON it.component_id = r.item_id
 ),
-               base_components AS (
-
-                      SELECT
-                       it.root_id,
-                       it.component_id,
-                       it.qty_total,
-                       i.cost
-                   FROM item_tree it
-                            JOIN items i
-                                 ON it.component_id = i.item_id
-                   WHERE NOT EXISTS (
-                       SELECT 1
-                       FROM item_recipe r
-                       WHERE r.item_id = it.component_id
-                   )
-               )
+base_components AS (
+    SELECT
+        it.root_id,
+        it.component_id,
+        it.qty_total,
+        i.cost
+    FROM item_tree it
+    JOIN items i
+        ON it.component_id = i.item_id
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM item_recipe r
+        WHERE r.item_id = it.component_id
+    )
+)
 SELECT
     i.name,
     i.cost,
