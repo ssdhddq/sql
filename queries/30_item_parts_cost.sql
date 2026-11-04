@@ -7,7 +7,6 @@
 -- Строк:   77
 
 WITH RECURSIVE item_tree AS (
-    -- Первый уровень компонентов
     SELECT
         i.item_id AS root_id,
         r.component_id,
@@ -18,7 +17,6 @@ WITH RECURSIVE item_tree AS (
 
     UNION ALL
 
-    -- Раскрываем составные компоненты дальше
     SELECT
         it.root_id,
         r.component_id,
@@ -28,7 +26,7 @@ WITH RECURSIVE item_tree AS (
                   ON it.component_id = r.item_id
 ),
                base_components AS (
-                   -- Оставляем только конечные (базовые) компоненты
+
                    SELECT
                        it.root_id,
                        it.component_id,
