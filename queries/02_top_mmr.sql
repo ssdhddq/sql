@@ -5,8 +5,3 @@
 -- Порядок: mmr по убыванию, при равенстве nickname по возрастанию
 -- Строк:   15
 
-SELECT nickname, country, mmr
-FROM players
-WHERE mmr > 9000
-ORDER BY mmr DESC, nickname ASC
-    LIMIT 15;

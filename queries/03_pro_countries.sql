@@ -5,7 +5,3 @@
 -- Порядок: country по возрастанию
 -- Строк:   15
 
-SELECT DISTINCT country
-FROM players
-WHERE mmr >= 10000
-ORDER BY country ASC;
