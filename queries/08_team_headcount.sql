@@ -6,3 +6,16 @@
 -- Порядок: players_now по убыванию, при равенстве name по возрастанию
 -- Строк:   24
 
+SELECT
+    t.name,
+    t.tag,
+    COUNT(DISTINCT tm.player_id) AS players_now,
+    COUNT(DISTINCT s.streamer_id) AS streamers_now
+FROM teams t
+         LEFT JOIN team_members tm
+                   ON t.team_id = tm.team_id
+                       AND tm.left_at IS NULL
+         LEFT JOIN streamers s
+                   ON tm.player_id = s.player_id
+GROUP BY t.team_id, t.name, t.tag
+ORDER BY players_now DESC, t.name ASC;
