@@ -34,4 +34,4 @@ SELECT
     peak_viewers - prev_peak AS delta
 FROM stream_stats
 WHERE prev_peak IS NOT NULL
-ORDER BY followers DESC, streamer ASC, started_at ASC;
+ORDER BY followers DESC, started_at ASC;
